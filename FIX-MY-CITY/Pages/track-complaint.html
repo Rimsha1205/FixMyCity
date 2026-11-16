@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Track Complaint - FixMyCity</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <h2>FixMyCity</h2>
+
+        <div>
+            <a href="citizen-dashboard.html">Dashboard</a>
+            <a href="add-complaint.html">Register Complaint</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </nav>
+
+
+    <!-- Complaint Tracking Section -->
+    <div class="tracking-container">
+
+        <h1>Track Your Complaint</h1>
+
+        <p class="tracking-intro">
+            Enter your complaint reference number to check its current status.
+        </p>
+
+
+        <!-- Tracking Form -->
+        <div class="tracking-form">
+
+            <input
+                type="text"
+                id="referenceNumber"
+                class="form-control"
+                placeholder="Enter Complaint Reference Number"
+            >
+
+            <button
+                class="btn btn-primary"
+                onclick="trackComplaint()"
+            >
+                Track Complaint
+            </button>
+
+        </div>
+
+
+        <!-- Tracking Result -->
+        <div id="trackingResult"></div>
+
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 FixMyCity. All rights reserved.</p>
+    </footer>
+
+
+    <!-- JavaScript Files -->
+    <script src="../JS/mock-data.js"></script>
+    <script src="../JS/status-history.js"></script>
+    <script src="../JS/track.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

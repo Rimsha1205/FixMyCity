@@ -1,0 +1,130 @@
+
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Ravi Kumar",
+      "email": "ravi@example.com",
+      "mobile": "9876543210",
+      "role": "Citizen"
+    },
+    {
+      "id": 2,
+      "name": "Municipal Officer",
+      "email": "officer@example.com",
+      "mobile": "9876543211",
+      "role": "Municipal Officer"
+    },
+    {
+      "id": 3,
+      "name": "Sanitation Staff",
+      "email": "sanitation@example.com",
+      "mobile": "9876543212",
+      "role": "Department Staff",
+      "department": "Sanitation"
+    },
+    {
+      "id": 4,
+      "name": "Road Maintenance Staff",
+      "email": "roads@example.com",
+      "mobile": "9876543213",
+      "role": "Department Staff",
+      "department": "Roads"
+    },
+    {
+      "id": 5,
+      "name": "Administrator",
+      "email": "admin@example.com",
+      "mobile": "9876543214",
+      "role": "Administrator"
+    }
+  ],
+  "complaints": [
+    {
+      "id": 1,
+      "referenceNumber": "FMC1001",
+      "citizenEmail": "naaz@example.com",
+      "title": "Garbage Not Collected for Several Days",
+      "category": "Garbage Collection",
+      "description": "Garbage has not been collected from our street for four days. Waste is accumulating near the roadside.",
+      "location": "Subedari, Hanamkonda",
+      "latitude": 17.9970,
+      "longitude": 79.5500,
+      "status": "Submitted",
+      "assignedDepartment": null,
+      "assignedStaffEmail": null,
+      "resolution": null,
+      "attachment": null,
+      "submittedAt": "2026-11-10"
+    },
+    {
+      "id": 2,
+      "referenceNumber": "FMC1002",
+      "citizenEmail": "athiqa123@gmail.com",
+      "title": "Damaged Road Causing Traffic Problems",
+      "category": "Road Damage",
+      "description": "Several potholes on the main road are causing problems for two-wheelers and other vehicles.",
+      "location": "Nakkalagutta, Hanamkonda",
+      "latitude": 18.0020,
+      "longitude": 79.5680,
+      "status": "Assigned",
+      "assignedDepartment": "Roads",
+      "assignedStaffEmail": "roads@example.com",
+      "resolution": null,
+      "attachment": null,
+      "submittedAt": "2026-11-11"
+    },
+    {
+      "id": 3,
+      "referenceNumber": "FMC1003",
+      "citizenEmail": "kavya@example.com",
+      "title": "Streetlight Not Working",
+      "category": "Streetlight Issue",
+      "description": "The streetlight near our residential area has not been working for several days.",
+      "location": "Kazipet, Warangal",
+      "latitude": 17.9680,
+      "longitude": 79.5030,
+      "status": "In Progress",
+      "assignedDepartment": "Electricity",
+      "assignedStaffEmail": "electricity@example.com",
+      "resolution": null,
+      "attachment": null,
+      "submittedAt": "2026-11-12"
+    },
+    {
+      "id": 4,
+      "referenceNumber": "FMC1004",
+      "citizenEmail": "rithu@example.com",
+      "title": "Water Leakage Near Residential Area",
+      "category": "Water Leakage",
+      "description": "Water is continuously leaking from a public supply pipe.",
+      "location": "Hanamkonda, Telangana",
+      "latitude": 18.0050,
+      "longitude": 79.5700,
+      "status": "Resolved",
+      "assignedDepartment": "Water Supply",
+      "assignedStaffEmail": "water@example.com",
+      "resolution": "The damaged water pipe was inspected and repaired.",
+      "attachment": null,
+      "submittedAt": "2026-11-13"
+    },
+    {
+      "id": 5,
+      "referenceNumber": "FMC1005",
+      "citizenEmail": "rimsha@example.com",
+      "title": "Drainage Blockage",
+      "category": "Drainage Problem",
+      "description": "Drainage water is overflowing near the roadside.",
+      "location": "Warangal, Telangana",
+      "latitude": 17.9780,
+      "longitude": 79.6010,
+      "status": "Rejected",
+      "assignedDepartment": null,
+      "assignedStaffEmail": null,
+      "resolution": null,
+      "rejectionReason": "The submitted location details could not be verified.",
+      "attachment": null,
+      "submittedAt": "2026-11-14"
+    }
+  ]
+}
