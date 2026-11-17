@@ -1,10 +1,3 @@
-
-/* =====================================
-   FIXMYCITY - COMPLAINT STATUS HISTORY
-===================================== */
-
-// Save a status update in complaint history
-
 function recordComplaintStatus(
     referenceNumber,
     status,
@@ -38,9 +31,6 @@ function recordComplaintStatus(
         history = [];
     }
 
-
-    // Create a new history event
-
     let event = {
 
         status: status,
@@ -55,20 +45,11 @@ function recordComplaintStatus(
 
     history.push(event);
 
-
-    // Save updated history
-
     localStorage.setItem(
         historyKey,
         JSON.stringify(history)
     );
 }
-
-
-// =====================================
-// GET COMPLAINT STATUS HISTORY
-// =====================================
-
 function getComplaintStatusHistory(referenceNumber) {
 
     let historyKey =
@@ -89,9 +70,6 @@ function getComplaintStatusHistory(referenceNumber) {
         return [];
     }
 }
-
-
-// Make functions accessible to other JavaScript files
 
 window.recordComplaintStatus = recordComplaintStatus;
 
