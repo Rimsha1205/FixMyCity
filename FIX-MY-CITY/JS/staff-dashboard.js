@@ -1,13 +1,3 @@
-
-// =====================================
-// FIXMYCITY - DEPARTMENT STAFF DASHBOARD
-// =====================================
-
-
-// =====================================
-// CHECK DEPARTMENT STAFF LOGIN
-// =====================================
-
 if (
     localStorage.getItem("isLoggedIn") !== "true" ||
     localStorage.getItem("currentUserRole") !== "Department Staff"
@@ -17,10 +7,6 @@ if (
 
 } else {
 
-    // =====================================
-    // DISPLAY STAFF INFORMATION
-    // =====================================
-
     let currentEmail =
         localStorage.getItem("currentUserEmail");
 
@@ -29,11 +15,6 @@ if (
 
     document.getElementById("staffDepartment").textContent =
         localStorage.getItem("currentUserDepartment") || "Not specified";
-
-
-    // =====================================
-    // READ IMAGE FILE AS DATA URL
-    // =====================================
 
     function readImageFile(file) {
 
@@ -53,11 +34,6 @@ if (
 
         });
     }
-
-
-    // =====================================
-    // SAFE LOCALSTORAGE SAVE WITH ROLLBACK
-    // =====================================
 
     function saveStorageChanges(values) {
 
@@ -86,8 +62,6 @@ if (
 
             console.error("LocalStorage Save Error:", error);
 
-
-            // Restore previous values
             keys.forEach(function(key) {
 
                 try {
@@ -120,11 +94,6 @@ if (
         }
     }
 
-
-    // =====================================
-    // CREATE IMAGE ELEMENT
-    // =====================================
-
     function createImageElement(source, altText) {
 
         if (!source) {
@@ -153,10 +122,6 @@ if (
     }
 
 
-    // =====================================
-    // DISPLAY ASSIGNED COMPLAINTS
-    // =====================================
-
     async function displayStaffComplaints() {
 
         let complaintList =
@@ -176,10 +141,6 @@ if (
 
         try {
 
-            // =====================================
-            // CHECK STAFF EMAIL
-            // =====================================
-
             if (!currentEmail) {
 
                 complaintList.textContent =
@@ -187,11 +148,6 @@ if (
 
                 return;
             }
-
-
-            // =====================================
-            // LOAD MOCK JSON COMPLAINTS
-            // =====================================
 
             let mockComplaints = [];
 
@@ -210,11 +166,6 @@ if (
                 mockComplaints = [];
 
             }
-
-
-            // =====================================
-            // LOAD LOCALSTORAGE COMPLAINTS
-            // =====================================
 
             let localComplaints = [];
 
@@ -239,8 +190,6 @@ if (
                 let referenceNumber =
                     localStorage.getItem(prefix + "id");
 
-
-                // Ignore incomplete complaint records
                 if (!referenceNumber) {
                     continue;
                 }
@@ -298,11 +247,6 @@ if (
 
             }
 
-
-            // =====================================
-            // COMBINE MOCK AND LOCALSTORAGE DATA
-            // =====================================
-
             let complaintMap = new Map();
 
 
@@ -319,8 +263,6 @@ if (
 
             });
 
-
-            // LocalStorage data takes priority
             localComplaints.forEach(function(complaint) {
 
                 complaintMap.set(
@@ -333,11 +275,6 @@ if (
 
             let allComplaints =
                 Array.from(complaintMap.values());
-
-
-            // =====================================
-            // DISPLAY COMPLAINTS ASSIGNED TO STAFF
-            // =====================================
 
             allComplaints.forEach(function(complaint) {
 
@@ -354,11 +291,6 @@ if (
                     "officer_assignment_" +
                     referenceNumber + "_";
 
-
-                // =====================================
-                // GET ASSIGNMENT DETAILS
-                // =====================================
-
                 let assignedEmail =
                     localStorage.getItem(assignmentKey + "email") ||
                     complaint.assignedStaffEmail ||
@@ -370,16 +302,9 @@ if (
                     complaint.assignedStaffName ||
                     "";
 
-
-                // Only show complaints assigned to logged-in staff
                 if (assignedEmail !== currentEmail) {
                     return;
                 }
-
-
-                // =====================================
-                // GET LATEST STATUS
-                // =====================================
 
                 let status =
                     localStorage.getItem(assignmentKey + "status") ||
@@ -398,16 +323,9 @@ if (
                 let normalizedStatus =
                     String(status).toLowerCase();
 
-
-                // Skip rejected complaints
                 if (normalizedStatus === "rejected") {
                     return;
                 }
-
-
-                // =====================================
-                // GET LATEST RESOLUTION
-                // =====================================
 
                 let resolution =
                     localStorage.getItem(assignmentKey + "resolution") ||
@@ -422,30 +340,15 @@ if (
 
                     "";
 
-
-                // =====================================
-                // GET INSPECTION NOTES
-                // =====================================
-
                 let inspectionNotes =
                     localStorage.getItem(
                         assignmentKey + "inspectionNotes"
                     ) || "";
 
-
-                // =====================================
-                // GET COMPLETION PHOTOGRAPH
-                // =====================================
-
                 let completionPhoto =
                     localStorage.getItem(
                         assignmentKey + "completionPhoto"
                     ) || "";
-
-
-                // =====================================
-                // CALCULATE STATISTICS
-                // =====================================
 
                 total++;
 
@@ -468,19 +371,10 @@ if (
 
                 }
 
-
-                // =====================================
-                // CREATE COMPLAINT CARD
-                // =====================================
-
                 let card = document.createElement("div");
 
                 card.className = "staff-complaint-card";
 
-
-                // =====================================
-                // COMPLAINT INFORMATION
-                // =====================================
 
                 let heading = document.createElement("h3");
 
@@ -596,11 +490,6 @@ if (
 
                 }
 
-
-                // =====================================
-                // CURRENT STATUS BADGE
-                // =====================================
-
                 let statusText = document.createElement("p");
 
                 statusText.textContent = "Current Status: ";
@@ -618,10 +507,6 @@ if (
                 statusText.appendChild(statusBadge);
 
 
-                // =====================================
-                // STATUS UPDATE DROPDOWN
-                // =====================================
-
                 let statusLabel = document.createElement("label");
 
                 statusLabel.textContent = "Update Status:";
@@ -631,8 +516,6 @@ if (
 
                 statusSelect.className = "form-select";
 
-
-                // Do not allow a resolved complaint to move backwards
                 let statusOptions =
                     normalizedStatus === "resolved"
                         ? ["Resolved"]
@@ -678,11 +561,6 @@ if (
 
                 }
 
-
-                // =====================================
-                // INSPECTION NOTES INPUT
-                // =====================================
-
                 let inspectionLabel =
                     document.createElement("label");
 
@@ -703,11 +581,6 @@ if (
                 inspectionInput.rows = 3;
 
                 inspectionInput.maxLength = 2000;
-
-
-                // =====================================
-                // RESOLUTION INPUT
-                // =====================================
 
                 let resolutionLabel =
                     document.createElement("label");
@@ -730,11 +603,6 @@ if (
 
                 resolutionInput.maxLength = 2000;
 
-
-                // =====================================
-                // COMPLETION PHOTOGRAPH INPUT
-                // =====================================
-
                 let photoLabel =
                     document.createElement("label");
 
@@ -752,10 +620,6 @@ if (
                 photoInput.accept =
                     "image/jpeg,image/png,image/webp";
 
-
-                // =====================================
-                // COMPLETION PHOTOGRAPH PREVIEW
-                // =====================================
 
                 let photoPreviewHeading =
                     document.createElement("h4");
@@ -789,11 +653,6 @@ if (
                     photoPreview.style.borderRadius = "8px";
 
                 }
-
-
-                // =====================================
-                // VALIDATE AND PREVIEW SELECTED IMAGE
-                // =====================================
 
                 photoInput.addEventListener("change", function() {
 
@@ -870,10 +729,6 @@ if (
                 });
 
 
-                // =====================================
-                // SAVE UPDATE BUTTON
-                // =====================================
-
                 let saveButton =
                     document.createElement("button");
 
@@ -883,10 +738,6 @@ if (
 
                 saveButton.type = "button";
 
-
-                // =====================================
-                // SAVE STATUS, NOTES AND PHOTOGRAPH
-                // =====================================
 
                 saveButton.addEventListener("click", async function() {
 
@@ -917,11 +768,6 @@ if (
 
                         "Assigned";
 
-
-                    // =====================================
-                    // PREVENT CHANGING RESOLVED STATUS
-                    // =====================================
-
                     if (
                         previousStatus.toLowerCase() === "resolved" &&
                         newStatus !== "Resolved"
@@ -933,11 +779,6 @@ if (
 
                         return;
                     }
-
-
-                    // =====================================
-                    // VALIDATE RESOLUTION DETAILS
-                    // =====================================
 
                     if (
                         newStatus === "Resolved" &&
@@ -952,11 +793,6 @@ if (
 
                         return;
                     }
-
-
-                    // =====================================
-                    // VALIDATE INSPECTION NOTES
-                    // =====================================
 
                     if (newInspectionNotes.length > 2000) {
 
@@ -976,11 +812,6 @@ if (
 
                         return;
                     }
-
-
-                    // =====================================
-                    // VALIDATE SELECTED PHOTOGRAPH
-                    // =====================================
 
                     let selectedPhoto = photoInput.files[0];
 
@@ -1027,10 +858,6 @@ if (
 
                     try {
 
-                        // =====================================
-                        // READ SELECTED PHOTOGRAPH
-                        // =====================================
-
                         let newCompletionPhoto = completionPhoto;
 
 
@@ -1040,11 +867,6 @@ if (
                                 await readImageFile(selectedPhoto);
 
                         }
-
-
-                        // =====================================
-                        // PREPARE DATA FOR STORAGE
-                        // =====================================
 
                         let storageValues = {};
 
@@ -1070,7 +892,6 @@ if (
                         }
 
 
-                        // Update original local complaint record
                         if (complaint.localPrefix) {
 
                             storageValues[
@@ -1084,11 +905,6 @@ if (
 
                         }
 
-
-                        // =====================================
-                        // SAVE ALL DATA SAFELY
-                        // =====================================
-
                         let saved =
                             saveStorageChanges(storageValues);
 
@@ -1101,10 +917,6 @@ if (
 
                         }
 
-
-                        // =====================================
-                        // RECORD STATUS HISTORY
-                        // =====================================
 
                         if (
                             newStatus !== previousStatus &&
@@ -1152,8 +964,6 @@ if (
 
                         alert("Complaint updated successfully!");
 
-
-                        // Refresh cards and statistics
                         displayStaffComplaints();
 
 
@@ -1177,10 +987,6 @@ if (
 
                 });
 
-
-                // =====================================
-                // ADD ELEMENTS TO COMPLAINT CARD
-                // =====================================
 
                 card.appendChild(heading);
 
@@ -1238,11 +1044,6 @@ if (
 
             });
 
-
-            // =====================================
-            // NO ASSIGNED COMPLAINTS MESSAGE
-            // =====================================
-
             if (total === 0) {
 
                 let emptyMessage =
@@ -1254,11 +1055,6 @@ if (
                 complaintList.appendChild(emptyMessage);
 
             }
-
-
-            // =====================================
-            // UPDATE DASHBOARD STATISTICS
-            // =====================================
 
             document.getElementById("staffTotal").textContent =
                 total;
@@ -1294,12 +1090,6 @@ if (
 
     }
 
-
-
-    // =====================================
-    // LOGOUT
-    // =====================================
-
     function logout() {
 
         let confirmLogout = confirm(
@@ -1326,14 +1116,7 @@ if (
 
     }
 
-
-    // Make logout accessible to HTML
     window.logout = logout;
-
-
-    // =====================================
-    // LOAD STAFF DASHBOARD
-    // =====================================
 
     displayStaffComplaints();
 
