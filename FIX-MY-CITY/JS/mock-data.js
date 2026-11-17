@@ -1,9 +1,3 @@
-
-/* =====================================
-   FIXMYCITY - MOCK DATA SERVICE
-===================================== */
-
-// Load mock data from JSON
 window.mockDataPromise = fetch("../mock-data.json")
     .then(function(response) {
         if (!response.ok) {
@@ -33,8 +27,6 @@ window.mockDataPromise = fetch("../mock-data.json")
         return null;
     });
 
-
-// Apply LocalStorage updates to mock complaints
 window.getUpdatedMockComplaints = async function() {
 
     let data = await window.mockDataPromise;
@@ -51,7 +43,6 @@ window.getUpdatedMockComplaints = async function() {
             "officer_assignment_" +
             complaint.referenceNumber + "_";
 
-        // Apply officer assignment
         complaint.assignedStaffEmail =
             localStorage.getItem(key + "email") ||
             complaint.assignedStaffEmail;
@@ -65,7 +56,6 @@ window.getUpdatedMockComplaints = async function() {
             localStorage.getItem(key + "department") ||
             complaint.assignedDepartment;
 
-        // Apply staff status updates
         complaint.status =
             localStorage.getItem(key + "status") ||
             complaint.status;
@@ -77,9 +67,6 @@ window.getUpdatedMockComplaints = async function() {
         return complaint;
     });
 };
-
-
-// Mock data service
 window.mockDataService = {
 
     getAllUsers: async function() {
