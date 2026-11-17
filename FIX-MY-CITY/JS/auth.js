@@ -1,12 +1,4 @@
 
-// =====================================
-// FIXMYCITY - AUTHENTICATION
-// =====================================
-
-
-// =====================================
-// COMMON MESSAGE FUNCTION
-// =====================================
 
 function displayAuthMessage(element, message, isError) {
 
@@ -17,10 +9,6 @@ function displayAuthMessage(element, message, isError) {
     element.style.color = isError ? "red" : "green";
 }
 
-
-// =====================================
-// REGISTRATION
-// =====================================
 
 const registerForm = document.getElementById("registerForm");
 
@@ -46,10 +34,6 @@ if (registerForm) {
 
     let isRegistering = false;
 
-
-    // =====================================
-    // GET DEPARTMENTS
-    // =====================================
 
     function getAvailableDepartments() {
 
@@ -82,10 +66,6 @@ if (registerForm) {
     }
 
 
-    // =====================================
-    // LOAD DEPARTMENTS
-    // =====================================
-
     function loadDepartments(selectedValue = "") {
 
         departmentSelect.innerHTML = "";
@@ -110,8 +90,6 @@ if (registerForm) {
             departmentSelect.appendChild(option);
         });
 
-
-        // Preserve previously selected department
         if (selectedValue) {
 
             let departmentExists = departments.some(function(department) {
@@ -125,8 +103,6 @@ if (registerForm) {
             }
         }
 
-
-        // Handle empty department list
         if (departments.length === 0) {
 
             departmentSelect.disabled = true;
@@ -147,14 +123,8 @@ if (registerForm) {
         }
     }
 
-
-    // Load departments when page opens
     loadDepartments();
 
-
-    // =====================================
-    // SHOW DEPARTMENT FIELD BASED ON ROLE
-    // =====================================
 
     roleOptions.forEach(function(option) {
 
@@ -181,21 +151,12 @@ if (registerForm) {
 
     });
 
-
-    // =====================================
-    // REGISTER USER
-    // =====================================
-
     registerForm.addEventListener("submit", function(event) {
 
         event.preventDefault();
 
         if (isRegistering) return;
 
-
-        // =====================================
-        // GET FORM VALUES
-        // =====================================
 
         let name =
             document.getElementById("name").value.trim();
@@ -222,10 +183,6 @@ if (registerForm) {
             departmentSelect ? departmentSelect.value : "";
 
 
-        // =====================================
-        // REQUIRED FIELD VALIDATION
-        // =====================================
-
         if (
             !name ||
             !email ||
@@ -243,10 +200,6 @@ if (registerForm) {
             return;
         }
 
-
-        // =====================================
-        // NAME VALIDATION
-        // =====================================
 
         if (name.length < 3 || name.length > 80) {
 
@@ -271,10 +224,6 @@ if (registerForm) {
         }
 
 
-        // =====================================
-        // EMAIL VALIDATION
-        // =====================================
-
         let emailPattern =
             /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -290,10 +239,6 @@ if (registerForm) {
         }
 
 
-        // =====================================
-        // MOBILE VALIDATION
-        // =====================================
-
         if (!/^[0-9]{10}$/.test(mobile)) {
 
             displayAuthMessage(
@@ -305,10 +250,6 @@ if (registerForm) {
             return;
         }
 
-
-        // =====================================
-        // ROLE VALIDATION
-        // =====================================
 
         let allowedRoles = [
             "Citizen",
@@ -328,10 +269,6 @@ if (registerForm) {
             return;
         }
 
-
-        // =====================================
-        // PASSWORD VALIDATION
-        // =====================================
 
         if (password.length < 6) {
 
@@ -367,14 +304,8 @@ if (registerForm) {
         }
 
 
-        // =====================================
-        // DEPARTMENT VALIDATION
-        // =====================================
-
         if (role === "Department Staff") {
 
-            // Read the latest department list without
-            // rebuilding the dropdown and losing selection.
             let latestDepartments = getAvailableDepartments();
 
             let departmentExists = latestDepartments.some(
@@ -403,10 +334,6 @@ if (registerForm) {
         }
 
 
-        // =====================================
-        // GET EXISTING USER COUNT
-        // =====================================
-
         let userCount =
             Number(localStorage.getItem("userCount")) || 0;
 
@@ -424,10 +351,6 @@ if (registerForm) {
             return;
         }
 
-
-        // =====================================
-        // CHECK DUPLICATE EMAIL AND MOBILE
-        // =====================================
 
         for (let i = 0; i < userCount; i++) {
 
@@ -465,10 +388,6 @@ if (registerForm) {
             }
         }
 
-
-        // =====================================
-        // SAVE USER DETAILS
-        // =====================================
 
         isRegistering = true;
 
@@ -521,8 +440,6 @@ if (registerForm) {
                 role === "Department Staff" ? department : ""
             );
 
-
-            // Update count only after user details are saved
             localStorage.setItem(
                 "userCount",
                 String(userCount + 1)
@@ -538,8 +455,6 @@ if (registerForm) {
 
             console.error("Registration Error:", error);
 
-
-            // Remove partially saved user information
             userKeys.forEach(function(key) {
 
                 localStorage.removeItem(userPrefix + key);
@@ -566,11 +481,6 @@ if (registerForm) {
 }
 
 
-
-// =====================================
-// LOGIN
-// =====================================
-
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
@@ -591,10 +501,6 @@ if (loginForm) {
         if (isLoggingIn) return;
 
 
-        // =====================================
-        // GET LOGIN DETAILS
-        // =====================================
-
         let email =
             document.getElementById("loginEmail").value.trim().toLowerCase();
 
@@ -604,10 +510,6 @@ if (loginForm) {
         let selectedRole =
             document.querySelector('input[name="loginRole"]:checked');
 
-
-        // =====================================
-        // VALIDATE INPUTS
-        // =====================================
 
         if (!email || !password) {
 
@@ -654,10 +556,6 @@ if (loginForm) {
         }
 
 
-        // =====================================
-        // GET USER COUNT
-        // =====================================
-
         let userCount =
             Number(localStorage.getItem("userCount")) || 0;
 
@@ -680,10 +578,6 @@ if (loginForm) {
 
         let dashboard = "";
 
-
-        // =====================================
-        // FIND MATCHING USER
-        // =====================================
 
         for (let i = 0; i < userCount; i++) {
 
@@ -710,10 +604,6 @@ if (loginForm) {
                     localStorage.getItem("user_" + i + "_department");
 
 
-                // =====================================
-                // SELECT DASHBOARD
-                // =====================================
-
                 if (savedRole === "Citizen") {
 
                     dashboard = "citizen-dashboard.html";
@@ -736,10 +626,6 @@ if (loginForm) {
                     break;
                 }
 
-
-                // =====================================
-                // SAVE LOGIN SESSION
-                // =====================================
 
                 try {
 
@@ -789,10 +675,6 @@ if (loginForm) {
             }
         }
 
-
-        // =====================================
-        // LOGIN RESULT
-        // =====================================
 
         if (loginSuccessful) {
 
