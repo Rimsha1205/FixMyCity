@@ -1,13 +1,3 @@
-
-// =====================================
-// FIXMYCITY - COMPLAINT REGISTRATION
-// =====================================
-
-
-// =====================================
-// CHECK CITIZEN LOGIN
-// =====================================
-
 if (
     localStorage.getItem("isLoggedIn") !== "true" ||
     localStorage.getItem("currentUserRole") !== "Citizen"
@@ -16,10 +6,6 @@ if (
     window.location.href = "login.html";
 
 } else {
-
-    // =====================================
-    // GET FORM ELEMENTS
-    // =====================================
 
     const complaintForm =
         document.getElementById("complaintForm");
@@ -40,11 +26,6 @@ if (
 
     let isSubmitting = false;
 
-
-    // =====================================
-    // DISPLAY MESSAGE
-    // =====================================
-
     function showComplaintMessage(message, isError) {
 
         complaintMessage.textContent = message;
@@ -55,10 +36,6 @@ if (
         complaintMessage.style.display = "block";
     }
 
-
-    // =====================================
-    // IMAGE PREVIEW AND VALIDATION
-    // =====================================
 
     photoInput.addEventListener("change", function() {
 
@@ -74,8 +51,6 @@ if (
             return;
         }
 
-
-        // Allowed image formats
         let allowedTypes = [
             "image/jpeg",
             "image/png",
@@ -94,8 +69,6 @@ if (
             return;
         }
 
-
-        // Maximum image size: 2 MB
         if (file.size > 2 * 1024 * 1024) {
 
             showComplaintMessage(
@@ -108,8 +81,6 @@ if (
             return;
         }
 
-
-        // Read image
         let reader = new FileReader();
 
         reader.onload = function(event) {
@@ -164,11 +135,6 @@ if (
 
     });
 
-
-    // =====================================
-    // SUBMIT COMPLAINT
-    // =====================================
-
     complaintForm.addEventListener("submit", function(event) {
 
         event.preventDefault();
@@ -178,11 +144,6 @@ if (
         }
 
         showComplaintMessage("", false);
-
-
-        // =====================================
-        // GET FORM VALUES
-        // =====================================
 
         let title =
             document.getElementById("complaintTitle").value.trim();
@@ -203,18 +164,11 @@ if (
         let longitudeValue =
             document.getElementById("longitude").value.trim();
 
-
-        // Keep blank coordinates blank
         let latitude =
             latitudeValue === "" ? "" : Number(latitudeValue);
 
         let longitude =
             longitudeValue === "" ? "" : Number(longitudeValue);
-
-
-        // =====================================
-        // VALIDATE TITLE
-        // =====================================
 
         if (title.length < 5) {
 
@@ -226,10 +180,6 @@ if (
             return;
         }
 
-
-        // =====================================
-        // VALIDATE CATEGORY
-        // =====================================
 
         let allowedCategories = [
             "Garbage Collection",
@@ -252,10 +202,6 @@ if (
         }
 
 
-        // =====================================
-        // VALIDATE DESCRIPTION
-        // =====================================
-
         if (description.length < 10) {
 
             showComplaintMessage(
@@ -265,11 +211,6 @@ if (
 
             return;
         }
-
-
-        // =====================================
-        // VALIDATE LOCATION
-        // =====================================
 
         if (location.length < 3) {
 
@@ -281,12 +222,6 @@ if (
             return;
         }
 
-
-        // =====================================
-        // VALIDATE COORDINATES
-        // =====================================
-
-        // Both coordinates must be entered together
         if (
             (latitudeValue === "" && longitudeValue !== "") ||
             (latitudeValue !== "" && longitudeValue === "")
@@ -299,9 +234,6 @@ if (
 
             return;
         }
-
-
-        // Validate latitude
         if (
             latitudeValue !== "" &&
             (
@@ -319,8 +251,6 @@ if (
             return;
         }
 
-
-        // Validate longitude
         if (
             longitudeValue !== "" &&
             (
@@ -338,11 +268,6 @@ if (
             return;
         }
 
-
-        // =====================================
-        // VALIDATE PHOTOGRAPH
-        // =====================================
-
         if (photoInput.files.length > 0 && !selectedPhoto) {
 
             showComplaintMessage(
@@ -352,11 +277,6 @@ if (
 
             return;
         }
-
-
-        // =====================================
-        // GET CITIZEN DETAILS
-        // =====================================
 
         let citizenName =
             localStorage.getItem("currentUserName");
@@ -374,11 +294,6 @@ if (
             return;
         }
 
-
-        // =====================================
-        // CONFIRM SUBMISSION
-        // =====================================
-
         let confirmSubmission = confirm(
             "Are you sure you want to submit this complaint?"
         );
@@ -387,21 +302,11 @@ if (
             return;
         }
 
-
-        // =====================================
-        // PREVENT DOUBLE SUBMISSION
-        // =====================================
-
         isSubmitting = true;
 
         submitButton.disabled = true;
 
         submitButton.textContent = "Submitting...";
-
-
-        // =====================================
-        // SAVE COMPLAINT DETAILS
-        // =====================================
 
         let complaintCount =
             Number(localStorage.getItem("complaintCount")) || 0;
@@ -435,21 +340,15 @@ if (
         let historyKey =
             "complaint_" + referenceNumber + "_history";
 
-
-        // =====================================
-        // STORE COMPLAINT IN LOCALSTORAGE
-        // =====================================
-
         try {
 
-            // Complaint reference number
+            
             localStorage.setItem(
                 prefix + "id",
                 referenceNumber
             );
 
 
-            // Complaint information
             localStorage.setItem(
                 prefix + "title",
                 title
@@ -470,8 +369,6 @@ if (
                 location
             );
 
-
-            // Coordinates
             localStorage.setItem(
                 prefix + "latitude",
                 latitudeValue === "" ? "" : String(latitude)
@@ -483,14 +380,11 @@ if (
             );
 
 
-            // Photograph
             localStorage.setItem(
                 prefix + "photo",
                 selectedPhoto
             );
 
-
-            // Citizen details
             localStorage.setItem(
                 prefix + "citizenName",
                 citizenName
@@ -501,24 +395,15 @@ if (
                 citizenEmail
             );
 
-
-            // Initial status
             localStorage.setItem(
                 prefix + "status",
                 "Pending"
             );
 
-
-            // Submission date stored in ISO format
             localStorage.setItem(
                 prefix + "date",
                 new Date().toISOString()
             );
-
-
-            // =====================================
-            // RECORD STATUS HISTORY
-            // =====================================
 
             if (window.recordComplaintStatus) {
 
@@ -530,17 +415,10 @@ if (
                 );
             }
 
-
-            // Update count only after all complaint data is saved
             localStorage.setItem(
                 "complaintCount",
                 String(complaintCount + 1)
             );
-
-
-            // =====================================
-            // SUCCESS
-            // =====================================
 
             alert(
                 "Complaint submitted successfully!\n" +
@@ -548,16 +426,12 @@ if (
                 referenceNumber
             );
 
-
-            // Clear form
             complaintForm.reset();
 
             imagePreview.innerHTML = "";
 
             selectedPhoto = "";
 
-
-            // Open citizen dashboard
             window.location.href = "citizen-dashboard.html";
 
         } catch (error) {
@@ -567,8 +441,6 @@ if (
                 error
             );
 
-
-            // Remove partially saved complaint data
             let complaintKeys = [
                 "id",
                 "title",
@@ -589,8 +461,6 @@ if (
                 localStorage.removeItem(prefix + key);
             });
 
-
-            // Remove incomplete status history
             localStorage.removeItem(historyKey);
 
 
@@ -599,8 +469,6 @@ if (
                 true
             );
 
-
-            // Allow another submission attempt
             isSubmitting = false;
 
             submitButton.disabled = false;
@@ -609,11 +477,6 @@ if (
         }
 
     });
-
-
-    // =====================================
-    // LOGOUT
-    // =====================================
 
     function logout() {
 
