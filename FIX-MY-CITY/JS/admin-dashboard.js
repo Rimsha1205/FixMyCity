@@ -1,5 +1,3 @@
-
-
 if (
     localStorage.getItem("isLoggedIn") !== "true" ||
     localStorage.getItem("currentUserRole") !== "Administrator"
