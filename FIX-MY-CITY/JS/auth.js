@@ -1,5 +1,3 @@
-
-
 function displayAuthMessage(element, message, isError) {
 
     if (!element) return;
