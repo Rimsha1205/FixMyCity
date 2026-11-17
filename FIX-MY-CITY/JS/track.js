@@ -1,10 +1,3 @@
-
-/* =====================================
-   FIXMYCITY - TRACK COMPLAINT
-===================================== */
-
-// Check whether the user is logged in
-
 if (localStorage.getItem("isLoggedIn") !== "true") {
 
     window.location.href = "login.html";
@@ -16,12 +9,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
     window.location.href = "login.html";
 
 } else {
-
-
-    // =====================================
-    // CREATE FALLBACK STATUS HISTORY
-    // =====================================
-
     function createFallbackHistory(complaint, assignment) {
 
         let history = [];
@@ -29,8 +16,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
         let status = complaint.status || "Pending";
 
         let submittedDate = complaint.submittedAt || "";
-
-        // Submission event
 
         history.push({
 
@@ -43,9 +28,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             timestamp: submittedDate
 
         });
-
-
-        // Check whether assignment information exists
 
         let hasAssignment =
             complaint.assignedStaffName ||
@@ -96,9 +78,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             });
         }
 
-
-        // Add the current status if it is not already represented
-
         if (
             status &&
             status.toLowerCase() !== "submitted" &&
@@ -142,11 +121,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
         return history;
     }
-
-
-    // =====================================
-    // DISPLAY TIMELINE
-    // =====================================
 
     function displayTimeline(timelineSection, history) {
 
@@ -232,11 +206,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
         timelineSection.appendChild(timelineList);
     }
 
-
-    // =====================================
-    // TRACK COMPLAINT FUNCTION
-    // =====================================
-
     async function trackComplaint() {
 
         let referenceNumber = document
@@ -268,10 +237,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
 
         try {
-
-            // =====================================
-            // SEARCH LOCALSTORAGE COMPLAINTS
-            // =====================================
 
             let complaintCount =
                 Number(localStorage.getItem("complaintCount")) || 0;
@@ -335,11 +300,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 }
             }
 
-
-            // =====================================
-            // SEARCH MOCK JSON IF NOT FOUND
-            // =====================================
-
             if (!complaint && window.mockDataService) {
 
                 let mockComplaint =
@@ -356,11 +316,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 }
             }
 
-
-            // =====================================
-            // COMPLAINT NOT FOUND
-            // =====================================
-
             if (!complaint) {
 
                 result.textContent =
@@ -370,11 +325,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
                 return;
             }
-
-
-            // =====================================
-            // GET LATEST SAVED UPDATES
-            // =====================================
 
             let assignmentKey =
                 "officer_assignment_" + referenceNumber + "_";
@@ -393,9 +343,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
             };
 
-
-            // Latest status
-
             complaint.status =
                 localStorage.getItem(assignmentKey + "status") ||
                 (localPrefix
@@ -403,9 +350,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                     : null) ||
                 complaint.status ||
                 "Pending";
-
-
-            // Latest resolution
 
             complaint.resolution =
                 localStorage.getItem(assignmentKey + "resolution") ||
@@ -415,9 +359,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 complaint.resolution ||
                 "";
 
-
-            // Latest rejection reason
-
             complaint.rejectionReason =
                 localStorage.getItem(assignmentKey + "rejectionReason") ||
                 (localPrefix
@@ -425,9 +366,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                     : null) ||
                 complaint.rejectionReason ||
                 "";
-
-
-            // Latest assignment information
 
             complaint.assignedStaffName =
                 assignment.name ||
@@ -444,30 +382,15 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 complaint.assignedDepartment ||
                 "";
 
-
-            // =====================================
-            // GET INSPECTION NOTES
-            // =====================================
-
             let inspectionNotes =
                 localStorage.getItem(
                     assignmentKey + "inspectionNotes"
                 ) || "";
 
-
-            // =====================================
-            // GET COMPLETION PHOTOGRAPH
-            // =====================================
-
             let completionPhoto =
                 localStorage.getItem(
                     assignmentKey + "completionPhoto"
                 ) || "";
-
-
-            // =====================================
-            // CREATE RESULT CARD
-            // =====================================
 
             let card = document.createElement("div");
 
@@ -479,11 +402,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             heading.textContent = "Complaint Details";
 
             card.appendChild(heading);
-
-
-            // =====================================
-            // DISPLAY COMPLAINT INFORMATION
-            // =====================================
 
             let details = [
 
@@ -527,10 +445,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             });
 
 
-            // =====================================
-            // DISPLAY CURRENT STATUS
-            // =====================================
-
             let statusParagraph = document.createElement("p");
 
             statusParagraph.textContent = "Current Status: ";
@@ -549,10 +463,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
             card.appendChild(statusParagraph);
 
-
-            // =====================================
-            // DISPLAY ASSIGNMENT INFORMATION
-            // =====================================
 
             if (
                 complaint.assignedStaffName ||
@@ -595,11 +505,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
                 card.appendChild(assignmentBox);
             }
-
-
-            // =====================================
-            // DISPLAY CHRONOLOGICAL STATUS TIMELINE
-            // =====================================
 
             let timelineSection = document.createElement("div");
 
@@ -689,9 +594,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             }
 
 
-            // Sort timeline chronologically.
-            // Events without dates appear after dated events.
-
             history.sort(function(a, b) {
 
                 let dateA = a.timestamp
@@ -724,11 +626,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
             card.appendChild(timelineSection);
 
-
-            // =====================================
-            // DISPLAY INSPECTION NOTES
-            // =====================================
-
             if (inspectionNotes && inspectionNotes.trim() !== "") {
 
                 let inspectionBox = document.createElement("div");
@@ -753,11 +650,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 card.appendChild(inspectionBox);
             }
 
-
-            // =====================================
-            // DISPLAY RESOLUTION DETAILS
-            // =====================================
-
             if (complaint.resolution && complaint.resolution.trim() !== "") {
 
                 let resolutionBox = document.createElement("div");
@@ -781,11 +673,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
                 card.appendChild(resolutionBox);
             }
-
-
-            // =====================================
-            // DISPLAY REJECTION REASON
-            // =====================================
 
             if (
                 status.toLowerCase() === "rejected" &&
@@ -815,10 +702,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 card.appendChild(rejectionBox);
             }
 
-
-            // =====================================
-            // DISPLAY COMPLETION PHOTOGRAPH
-            // =====================================
 
             if (completionPhoto && completionPhoto.trim() !== "") {
 
@@ -851,11 +734,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 card.appendChild(completionImage);
             }
 
-
-            // =====================================
-            // DISPLAY ORIGINAL COMPLAINT PHOTOGRAPH
-            // =====================================
-
             let photo = complaint.attachment || complaint.photo;
 
             if (photo && photo.trim() !== "") {
@@ -885,11 +763,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 card.appendChild(image);
             }
 
-
-            // =====================================
-            // DISPLAY FINAL RESULT
-            // =====================================
-
             result.appendChild(card);
 
             result.className = "tracking-result";
@@ -904,11 +777,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             result.className = "tracking-error";
         }
     }
-
-
-    // =====================================
-    // LOGOUT FUNCTION
-    // =====================================
 
     function logout() {
 
@@ -926,9 +794,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
     }
 
 
-    // =====================================
-    // MAKE FUNCTIONS ACCESSIBLE TO HTML
-    // =====================================
 
     window.trackComplaint = trackComplaint;
 
