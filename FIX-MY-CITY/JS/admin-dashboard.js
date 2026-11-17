@@ -1,12 +1,4 @@
 
-// =====================================
-// FIXMYCITY - ADMINISTRATOR DASHBOARD
-// =====================================
-
-
-// =====================================
-// CHECK ADMINISTRATOR LOGIN
-// =====================================
 
 if (
     localStorage.getItem("isLoggedIn") !== "true" ||
@@ -16,22 +8,14 @@ if (
     window.location.href = "login.html";
 
 } else {
-
-    // =====================================
-    // DISPLAY ADMINISTRATOR NAME
-    // =====================================
+  
 
     document.getElementById("adminName").textContent =
         localStorage.getItem("currentUserName") || "Administrator";
 
 
-    // Stores all complaints for report generation
     let adminReportComplaints = [];
 
-
-    // =====================================
-    // DISPLAY REGISTERED USERS
-    // =====================================
 
     function displayUsers() {
 
@@ -81,14 +65,8 @@ if (
     }
 
 
-    // =====================================
-    // DEPARTMENT MANAGEMENT
-    // =====================================
-
     const DEPARTMENT_KEY = "fixmycity_departments";
 
-
-    // Get existing departments
     function getDepartments() {
 
         try {
@@ -106,8 +84,6 @@ if (
         }
     }
 
-
-    // Save departments
     function saveDepartments(departments) {
 
         localStorage.setItem(
@@ -116,8 +92,6 @@ if (
         );
     }
 
-
-    // Initialize departments
     function initializeDepartments() {
 
         let departments = getDepartments();
@@ -159,8 +133,6 @@ if (
             }
         ];
 
-
-        // Include departments already used by registered staff
         let userCount =
             Number(localStorage.getItem("userCount")) || 0;
 
@@ -196,7 +168,6 @@ if (
     }
 
 
-    // Display departments
     function displayDepartments() {
 
         let departmentTable =
@@ -232,7 +203,6 @@ if (
             let actionCell = document.createElement("td");
 
 
-            // Edit button
             let editButton = document.createElement("button");
 
             editButton.type = "button";
@@ -247,8 +217,6 @@ if (
                 editDepartment(department.name);
             });
 
-
-            // Delete button
             let deleteButton = document.createElement("button");
 
             deleteButton.type = "button";
@@ -279,7 +247,6 @@ if (
     }
 
 
-    // Show department message
     function showDepartmentMessage(message, isError) {
 
         let messageElement =
@@ -292,7 +259,6 @@ if (
     }
 
 
-    // Reset department form
     function resetDepartmentForm() {
 
         document.getElementById("departmentForm").reset();
@@ -309,15 +275,12 @@ if (
             "none";
     }
 
-
-    // Check whether department is currently in use
     async function isDepartmentInUse(departmentName) {
 
         let target =
             departmentName.trim().toLowerCase();
 
 
-        // Check registered Department Staff
         let userCount =
             Number(localStorage.getItem("userCount")) || 0;
 
@@ -340,7 +303,6 @@ if (
         }
 
 
-        // Check complaints stored in LocalStorage
         let complaintCount =
             Number(localStorage.getItem("complaintCount")) || 0;
 
@@ -369,7 +331,6 @@ if (
         }
 
 
-        // Check Mock JSON complaints
         if (window.mockDataService) {
 
             try {
@@ -427,7 +388,6 @@ if (
     }
 
 
-    // Add or update department
     document.getElementById("departmentForm").addEventListener(
         "submit",
         async function(event) {
@@ -456,7 +416,6 @@ if (
             let departments = getDepartments();
 
 
-            // Check duplicate department names
             let duplicate = departments.some(function(department) {
 
                 return (
@@ -477,7 +436,6 @@ if (
             }
 
 
-            // Editing existing department
             if (originalName) {
 
                 let departmentInUse =
@@ -520,7 +478,6 @@ if (
 
             } else {
 
-                // Add new department
                 departments.push({
 
                     name: departmentName,
@@ -543,7 +500,6 @@ if (
     );
 
 
-    // Edit department
     function editDepartment(departmentName) {
 
         let departments = getDepartments();
@@ -588,8 +544,6 @@ if (
         });
     }
 
-
-    // Delete department
     async function deleteDepartment(departmentName) {
 
         let departmentInUse =
@@ -640,8 +594,6 @@ if (
         }
     }
 
-
-    // Cancel department editing
     document.getElementById("cancelDepartmentEditBtn").addEventListener(
         "click",
         function() {
@@ -655,10 +607,6 @@ if (
         }
     );
 
-
-    // =====================================
-    // GET LOCALSTORAGE COMPLAINTS
-    // =====================================
 
     function getLocalStorageComplaints() {
 
@@ -723,10 +671,6 @@ if (
     }
 
 
-    // =====================================
-    // REPORT DATE FORMAT
-    // =====================================
-
     function getReportDate(dateValue) {
 
         if (!dateValue) {
@@ -747,9 +691,6 @@ if (
     }
 
 
-    // =====================================
-    // ADMINISTRATOR REPORTS AND SUMMARIES
-    // =====================================
 
     function displayReports(complaints) {
 
@@ -766,7 +707,6 @@ if (
             document.getElementById("reportMessage");
 
 
-        // Validate date range
         if (startDate && endDate && startDate > endDate) {
 
             reportMessage.textContent =
@@ -780,7 +720,6 @@ if (
         reportMessage.textContent = "";
 
 
-        // Apply report filters
         let filteredComplaints = complaints.filter(function(complaint) {
 
             let complaintDate =
@@ -812,7 +751,6 @@ if (
         });
 
 
-        // Calculate complaint status totals
         let total = filteredComplaints.length;
 
         let pending = 0;
@@ -850,7 +788,6 @@ if (
             }
 
 
-            // Category-wise count
             let category =
                 complaint.category || "Uncategorized";
 
@@ -859,7 +796,6 @@ if (
         });
 
 
-        // Display summary cards
         document.getElementById("reportTotal").textContent = total;
 
         document.getElementById("reportPending").textContent = pending;
@@ -871,7 +807,6 @@ if (
         document.getElementById("reportRejected").textContent = rejected;
 
 
-        // Display category-wise summary
         let categoryTable =
             document.getElementById("categoryReportTable");
 
@@ -908,7 +843,6 @@ if (
     }
 
 
-    // Generate report button
     document.getElementById("generateReportBtn").addEventListener(
         "click",
         function() {
@@ -918,7 +852,6 @@ if (
     );
 
 
-    // Reset report filters
     document.getElementById("resetReportBtn").addEventListener(
         "click",
         function() {
@@ -933,10 +866,6 @@ if (
         }
     );
 
-
-    // =====================================
-    // DISPLAY ALL COMPLAINTS
-    // =====================================
 
     async function displayComplaints() {
 
@@ -959,7 +888,6 @@ if (
                 getLocalStorageComplaints();
 
 
-            // Combine Mock JSON and LocalStorage complaints
             let complaintMap = new Map();
 
             mockComplaints.forEach(function(complaint) {
@@ -987,7 +915,6 @@ if (
                 Array.from(complaintMap.values());
 
 
-            // Status counters for Complaint Overview
             let total = complaints.length;
 
             let pending = 0;
@@ -996,7 +923,6 @@ if (
             let rejected = 0;
 
 
-            // Data for reports
             let reportComplaints = [];
 
 
@@ -1009,7 +935,6 @@ if (
                     "officer_assignment_" + referenceNumber + "_";
 
 
-                // Assigned staff details
                 let assignedStaff =
                     localStorage.getItem(assignmentKey + "name") ||
                     complaint.assignedStaffName ||
@@ -1025,8 +950,6 @@ if (
                     complaint.assignedDepartment ||
                     "";
 
-
-                // Latest complaint status
                 let status =
                     localStorage.getItem(assignmentKey + "status") ||
                     (complaint.localPrefix
@@ -1037,8 +960,6 @@ if (
                     complaint.status ||
                     "Pending";
 
-
-                // Resolution details
                 let resolution =
                     localStorage.getItem(assignmentKey + "resolution") ||
                     (complaint.localPrefix
@@ -1049,8 +970,6 @@ if (
                     complaint.resolution ||
                     "";
 
-
-                // Rejection reason
                 let rejectionReason =
                     localStorage.getItem(assignmentKey + "rejectionReason") ||
                     (complaint.localPrefix
@@ -1065,8 +984,6 @@ if (
                 let normalizedStatus =
                     status.toLowerCase();
 
-
-                // Complaint Overview counts
                 if (
                     normalizedStatus === "pending" ||
                     normalizedStatus === "submitted" ||
@@ -1088,8 +1005,6 @@ if (
                     rejected++;
                 }
 
-
-                // Prepare report data
                 reportComplaints.push({
 
                     category:
@@ -1101,8 +1016,6 @@ if (
                         complaint.submittedAt || complaint.date || ""
                 });
 
-
-                // Create complaint table row
                 let row = document.createElement("tr");
 
                 let values = [
@@ -1147,8 +1060,6 @@ if (
                     row.appendChild(cell);
                 });
 
-
-                // Status badge
                 let statusCell =
                     document.createElement("td");
 
@@ -1168,16 +1079,12 @@ if (
                 table.appendChild(row);
             });
 
-
-            // No complaints message
             if (total === 0) {
 
                 table.innerHTML =
                     "<tr><td colspan='13'>No complaints have been registered yet.</td></tr>";
             }
 
-
-            // Update Complaint Overview
             document.getElementById("adminTotal").textContent =
                 total;
 
@@ -1193,8 +1100,6 @@ if (
             document.getElementById("adminRejected").textContent =
                 rejected;
 
-
-            // Update report data
             adminReportComplaints = reportComplaints;
 
             displayReports(adminReportComplaints);
@@ -1213,10 +1118,6 @@ if (
     }
 
 
-    // =====================================
-    // LOGOUT
-    // =====================================
-
     function logout() {
 
         localStorage.removeItem("isLoggedIn");
@@ -1234,10 +1135,6 @@ if (
 
     window.logout = logout;
 
-
-    // =====================================
-    // LOAD DASHBOARD INFORMATION
-    // =====================================
 
     initializeDepartments();
 
