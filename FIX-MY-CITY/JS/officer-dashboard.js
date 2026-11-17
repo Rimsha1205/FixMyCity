@@ -1,13 +1,3 @@
-
-// =====================================
-// FIXMYCITY - MUNICIPAL OFFICER DASHBOARD
-// =====================================
-
-
-// =====================================
-// CHECK MUNICIPAL OFFICER LOGIN
-// =====================================
-
 if (
     localStorage.getItem("isLoggedIn") !== "true" ||
     localStorage.getItem("currentUserRole") !== "Municipal Officer"
@@ -17,18 +7,8 @@ if (
 
 } else {
 
-
-    // =====================================
-    // DISPLAY OFFICER NAME
-    // =====================================
-
     document.getElementById("officerName").textContent =
         localStorage.getItem("currentUserName") || "Municipal Officer";
-
-
-    // =====================================
-    // GET STAFF FOR COMPLAINT CATEGORY
-    // =====================================
 
     function getStaffForComplaint(category) {
 
@@ -111,12 +91,6 @@ if (
         return staff;
     }
 
-
-
-    // =====================================
-    // SAFE LOCALSTORAGE UPDATE
-    // =====================================
-
     function saveStorageChanges(values, keysToRemove = []) {
 
         let previousValues = {};
@@ -125,8 +99,6 @@ if (
             ...Object.keys(values),
             ...keysToRemove
         ];
-
-        // Preserve original values for rollback
         allKeys.forEach(function(key) {
 
             previousValues[key] = localStorage.getItem(key);
@@ -135,16 +107,12 @@ if (
 
 
         try {
-
-            // Save new values
             Object.keys(values).forEach(function(key) {
 
                 localStorage.setItem(key, String(values[key]));
 
             });
 
-
-            // Remove specified values
             keysToRemove.forEach(function(key) {
 
                 localStorage.removeItem(key);
@@ -157,8 +125,6 @@ if (
 
             console.error("LocalStorage Update Error:", error);
 
-
-            // Restore previous values if saving fails
             allKeys.forEach(function(key) {
 
                 try {
@@ -188,12 +154,6 @@ if (
         }
     }
 
-
-
-    // =====================================
-    // GET LOCALSTORAGE COMPLAINTS
-    // =====================================
-
     function getLocalComplaints() {
 
         let complaints = [];
@@ -216,7 +176,6 @@ if (
             let referenceNumber =
                 localStorage.getItem(prefix + "id");
 
-            // Ignore incomplete records
             if (!referenceNumber) {
                 continue;
             }
@@ -280,11 +239,6 @@ if (
     }
 
 
-
-    // =====================================
-    // SHOW COMPLAINT DETAILS
-    // =====================================
-
     function showComplaintDetails(complaint) {
 
         let modal = document.createElement("div");
@@ -319,8 +273,6 @@ if (
 
         content.appendChild(heading);
 
-
-        // Complaint information
 
         let details = [
 
@@ -373,8 +325,6 @@ if (
         });
 
 
-        // Display original complaint photograph
-
         let photo = complaint.photo || complaint.attachment;
 
         if (photo) {
@@ -399,8 +349,6 @@ if (
         }
 
 
-        // Close button
-
         let closeButton = document.createElement("button");
 
         closeButton.textContent = "Close";
@@ -423,8 +371,6 @@ if (
         modal.appendChild(content);
 
 
-        // Close when clicking outside the modal
-
         modal.addEventListener("click", function(event) {
 
             if (event.target === modal) {
@@ -438,12 +384,6 @@ if (
         document.body.appendChild(modal);
     }
 
-
-
-    // =====================================
-    // DISPLAY ALL COMPLAINTS
-    // =====================================
-
     async function displayOfficerComplaints() {
 
         let table =
@@ -453,10 +393,6 @@ if (
 
 
         try {
-
-            // =====================================
-            // LOAD MOCK COMPLAINTS
-            // =====================================
 
             let mockComplaints = [];
 
@@ -474,17 +410,7 @@ if (
 
             }
 
-
-            // =====================================
-            // LOAD LOCALSTORAGE COMPLAINTS
-            // =====================================
-
             let localComplaints = getLocalComplaints();
-
-
-            // =====================================
-            // COMBINE COMPLAINTS
-            // =====================================
 
             let complaintMap = new Map();
 
@@ -500,8 +426,6 @@ if (
                 }
             });
 
-
-            // LocalStorage records override mock records
             localComplaints.forEach(function(complaint) {
 
                 complaintMap.set(
@@ -514,11 +438,6 @@ if (
             let complaints =
                 Array.from(complaintMap.values());
 
-
-            // =====================================
-            // INITIALIZE STATISTICS
-            // =====================================
-
             let total = complaints.length;
 
             let pending = 0;
@@ -529,11 +448,6 @@ if (
 
             let rejected = 0;
 
-
-            // =====================================
-            // PROCESS EACH COMPLAINT
-            // =====================================
-
             complaints.forEach(function(complaint) {
 
                 let referenceNumber =
@@ -542,11 +456,6 @@ if (
                 let assignmentKey =
                     "officer_assignment_" +
                     referenceNumber + "_";
-
-
-                // =====================================
-                // GET LATEST ASSIGNMENT DETAILS
-                // =====================================
 
                 let assignedEmail =
                     localStorage.getItem(assignmentKey + "email") ||
@@ -563,11 +472,6 @@ if (
                     complaint.assignedDepartment ||
                     "";
 
-
-                // =====================================
-                // GET LATEST STATUS
-                // =====================================
-
                 let status =
                     localStorage.getItem(assignmentKey + "status") ||
 
@@ -581,11 +485,6 @@ if (
 
                     "Pending";
 
-
-                // =====================================
-                // GET RESOLUTION
-                // =====================================
-
                 let resolution =
                     localStorage.getItem(assignmentKey + "resolution") ||
 
@@ -598,11 +497,6 @@ if (
                     complaint.resolution ||
 
                     "";
-
-
-                // =====================================
-                // GET REJECTION REASON
-                // =====================================
 
                 let rejectionReason =
                     localStorage.getItem(
@@ -619,11 +513,6 @@ if (
 
                     "";
 
-
-                // =====================================
-                // UPDATE COMPLAINT OBJECT
-                // =====================================
-
                 complaint.status = status;
 
                 complaint.resolution = resolution;
@@ -636,10 +525,6 @@ if (
 
                 complaint.assignedDepartment = assignedDepartment;
 
-
-                // =====================================
-                // UPDATE STATISTICS
-                // =====================================
 
                 let normalizedStatus = status.toLowerCase();
 
@@ -665,15 +550,8 @@ if (
 
                 }
 
-
-                // =====================================
-                // CREATE TABLE ROW
-                // =====================================
-
                 let row = document.createElement("tr");
 
-
-                // Complaint information columns
 
                 let values = [
 
@@ -712,10 +590,6 @@ if (
                 });
 
 
-                // =====================================
-                // STATUS COLUMN
-                // =====================================
-
                 let statusCell = document.createElement("td");
 
                 let statusBadge = document.createElement("span");
@@ -730,10 +604,6 @@ if (
 
                 row.appendChild(statusCell);
 
-
-                // =====================================
-                // ASSIGNED TO COLUMN
-                // =====================================
 
                 let assignedCell = document.createElement("td");
 
@@ -778,11 +648,6 @@ if (
 
                 row.appendChild(assignedCell);
 
-
-                // =====================================
-                // ASSIGNMENT CONTROLS
-                // =====================================
-
                 let assignmentCell =
                     document.createElement("td");
 
@@ -794,10 +659,6 @@ if (
 
                 controls.className = "assignment-controls";
 
-
-                // =====================================
-                // STAFF DROPDOWN
-                // =====================================
 
                 let staffSelect =
                     document.createElement("select");
@@ -837,11 +698,6 @@ if (
 
                 });
 
-
-                // =====================================
-                // ASSIGN / EDIT ASSIGNMENT BUTTON
-                // =====================================
-
                 let assignButton =
                     document.createElement("button");
 
@@ -864,11 +720,6 @@ if (
                     defaultOption.textContent = "No staff available";
 
                 }
-
-
-                // =====================================
-                // ASSIGNMENT ACTION
-                // =====================================
 
                 assignButton.addEventListener("click", function() {
 
@@ -915,10 +766,6 @@ if (
                     if (!confirmAssignment) return;
 
 
-                    // =====================================
-                    // CHECK WHETHER ASSIGNMENT CHANGED
-                    // =====================================
-
                     let previousEmail =
                         localStorage.getItem(assignmentKey + "email") ||
                         complaint.assignedStaffEmail ||
@@ -927,10 +774,6 @@ if (
                     let assignmentChanged =
                         previousEmail !== selectedStaff.email;
 
-
-                    // =====================================
-                    // PREPARE ASSIGNMENT DATA
-                    // =====================================
 
                     let assignmentValues = {};
 
@@ -953,9 +796,6 @@ if (
                         assignmentKey + "rejectionReason"
 
                     ];
-
-
-                    // Also update original LocalStorage complaint
                     if (complaint.localPrefix) {
 
                         assignmentValues[
@@ -983,11 +823,6 @@ if (
                         );
                     }
 
-
-                    // =====================================
-                    // SAVE ASSIGNMENT
-                    // =====================================
-
                     assignButton.disabled = true;
 
                     assignButton.textContent = "Saving...";
@@ -1014,11 +849,6 @@ if (
 
                         return;
                     }
-
-
-                    // =====================================
-                    // RECORD STATUS HISTORY
-                    // =====================================
 
                     if (
                         assignmentChanged &&
@@ -1058,11 +888,6 @@ if (
 
                 });
 
-
-                // =====================================
-                // REJECT / EDIT REJECTION BUTTON
-                // =====================================
-
                 let rejectButton =
                     document.createElement("button");
 
@@ -1075,10 +900,6 @@ if (
                         ? "Edit Rejection"
                         : "Reject Complaint";
 
-
-                // =====================================
-                // REJECTION ACTION
-                // =====================================
 
                 rejectButton.addEventListener("click", function() {
 
@@ -1110,9 +931,6 @@ if (
 
                     reason = reason.trim();
 
-
-                    // Validate rejection reason
-
                     if (reason.length < 5) {
 
                         alert(
@@ -1142,11 +960,6 @@ if (
 
                     if (!confirmReject) return;
 
-
-                    // =====================================
-                    // PREPARE REJECTION DATA
-                    // =====================================
-
                     let rejectionValues = {};
 
 
@@ -1169,11 +982,6 @@ if (
                             complaint.localPrefix + "rejectionReason"
                         ] = reason;
                     }
-
-
-                    // =====================================
-                    // SAVE REJECTION
-                    // =====================================
 
                     rejectButton.disabled = true;
 
@@ -1201,18 +1009,11 @@ if (
                         return;
                     }
 
-
-                    // =====================================
-                    // RECORD REJECTION HISTORY
-                    // =====================================
-
                     let previousReason =
                         localStorage.getItem(
                             assignmentKey + "rejectionReason"
                         );
 
-
-                    // Check whether this is a new rejection
                     let rejectionChanged =
                         normalizedStatus !== "rejected" ||
                         previousReason !== reason;
@@ -1254,12 +1055,6 @@ if (
 
                 });
 
-
-
-                // =====================================
-                // RESOLVED COMPLAINT CONTROLS
-                // =====================================
-
                 if (normalizedStatus === "resolved") {
 
                     let completedMessage =
@@ -1288,11 +1083,6 @@ if (
                 row.appendChild(assignmentCell);
 
 
-
-                // =====================================
-                // CLICK ROW TO VIEW COMPLAINT DETAILS
-                // =====================================
-
                 row.style.cursor = "pointer";
 
 
@@ -1309,18 +1099,10 @@ if (
 
                 });
 
-
-                // Add row to table
-
                 table.appendChild(row);
 
             });
 
-
-
-            // =====================================
-            // NO COMPLAINTS MESSAGE
-            // =====================================
 
             if (total === 0) {
 
@@ -1338,12 +1120,6 @@ if (
                 table.appendChild(emptyRow);
 
             }
-
-
-
-            // =====================================
-            // UPDATE COMPLAINT STATISTICS
-            // =====================================
 
             document.getElementById("officerTotal").textContent =
                 total;
@@ -1388,12 +1164,6 @@ if (
 
     }
 
-
-
-    // =====================================
-    // LOGOUT
-    // =====================================
-
     function logout() {
 
         let confirmLogout = confirm(
@@ -1417,15 +1187,7 @@ if (
         }
     }
 
-
-    // Make logout available to HTML onclick
     window.logout = logout;
-
-
-
-    // =====================================
-    // LOAD OFFICER DASHBOARD
-    // =====================================
 
     displayOfficerComplaints();
 
