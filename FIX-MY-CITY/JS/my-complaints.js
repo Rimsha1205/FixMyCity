@@ -1,5 +1,3 @@
-
-// Check whether the user is logged in
 if (localStorage.getItem("isLoggedIn") !== "true") {
 
     window.location.href = "login.html";
@@ -12,14 +10,7 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
 } else {
 
-    // Store all complaints for filtering
     let allCitizenComplaints = [];
-
-
-    // =====================================
-    // DISPLAY CITIZEN COMPLAINTS
-    // =====================================
-
     async function displayMyComplaints() {
 
         let complaintList =
@@ -31,8 +22,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
         complaintList.innerHTML = "";
 
         try {
-
-            // Load mock JSON complaints
             let mockComplaints = [];
 
             if (window.mockDataService) {
@@ -42,9 +31,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                         currentEmail
                     );
             }
-
-
-            // Load LocalStorage complaints
             let localComplaints = [];
 
             let complaintCount =
@@ -100,11 +86,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 }
             }
 
-
-            // =====================================
-            // COMBINE MOCK AND LOCALSTORAGE DATA
-            // =====================================
-
             let complaintMap = new Map();
 
             mockComplaints.forEach(function(complaint) {
@@ -115,7 +96,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 );
             });
 
-            // LocalStorage data takes priority
             localComplaints.forEach(function(complaint) {
 
                 complaintMap.set(
@@ -126,11 +106,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
             allCitizenComplaints =
                 Array.from(complaintMap.values());
-
-
-            // =====================================
-            // GET LATEST STATUS AND DETAILS
-            // =====================================
 
             allCitizenComplaints.forEach(function(complaint) {
 
@@ -158,9 +133,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                     "";
 
             });
-
-
-            // Display all complaints initially
             applyComplaintFilters();
 
 
@@ -173,10 +145,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
         }
     }
 
-
-    // =====================================
-    // FILTER COMPLAINTS
-    // =====================================
 
     function applyComplaintFilters() {
 
@@ -213,10 +181,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
     }
 
 
-    // =====================================
-    // DISPLAY COMPLAINT CARDS
-    // =====================================
-
     function displayComplaintCards(complaints) {
 
         let complaintList =
@@ -224,8 +188,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
         complaintList.innerHTML = "";
 
-
-        // No complaints submitted
         if (allCitizenComplaints.length === 0) {
 
             let message = document.createElement("div");
@@ -250,8 +212,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             return;
         }
 
-
-        // No complaints match selected filters
         if (complaints.length === 0) {
 
             let message = document.createElement("div");
@@ -276,8 +236,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             return;
         }
 
-
-        // Display filtered complaint cards
         complaints.forEach(function(complaint) {
 
             let referenceNumber =
@@ -292,14 +250,10 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             let rejectionReason =
                 complaint.currentRejectionReason || "";
 
-
-            // Create complaint card
             let card = document.createElement("div");
 
             card.className = "my-complaint-card";
 
-
-            // Complaint title
             let heading = document.createElement("h3");
 
             heading.textContent =
@@ -307,8 +261,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
             card.appendChild(heading);
 
-
-            // Complaint details
             let details = [
 
                 "Reference Number: " + referenceNumber,
@@ -326,8 +278,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                      "Not specified")
             ];
 
-
-            // Display coordinates when available
             if (
                 complaint.latitude !== null &&
                 complaint.latitude !== undefined &&
@@ -350,8 +300,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 );
             }
 
-
-            // Display complaint details
             details.forEach(function(detail) {
 
                 let paragraph = document.createElement("p");
@@ -360,11 +308,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
                 card.appendChild(paragraph);
             });
-
-
-            // =====================================
-            // STATUS BADGE
-            // =====================================
 
             let statusParagraph =
                 document.createElement("p");
@@ -383,11 +326,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             statusParagraph.appendChild(statusBadge);
 
             card.appendChild(statusParagraph);
-
-
-            // =====================================
-            // RESOLUTION DETAILS
-            // =====================================
 
             if (resolution.trim() !== "") {
 
@@ -413,11 +351,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
                 card.appendChild(resolutionBox);
             }
-
-
-            // =====================================
-            // REJECTION REASON
-            // =====================================
 
             if (
                 status === "Rejected" &&
@@ -455,11 +388,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
     }
 
-
-    // =====================================
-    // FILTER EVENT LISTENERS
-    // =====================================
-
     let statusFilter =
         document.getElementById("statusFilter");
 
@@ -482,11 +410,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
         );
     }
 
-
-    // =====================================
-    // LOGOUT FUNCTION
-    // =====================================
-
     function logout() {
 
         localStorage.removeItem("isLoggedIn");
@@ -501,11 +424,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
         window.location.href = "login.html";
     }
-
-
-    // =====================================
-    // LOAD COMPLAINTS
-    // =====================================
 
     displayMyComplaints();
 
