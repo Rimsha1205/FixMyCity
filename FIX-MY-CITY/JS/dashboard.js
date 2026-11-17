@@ -1,10 +1,3 @@
-
-// =====================================
-// FIXMYCITY - CITIZEN DASHBOARD
-// =====================================
-
-
-// Check login status
 if (localStorage.getItem("isLoggedIn") !== "true") {
 
     window.location.href = "login.html";
@@ -16,11 +9,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
     window.location.href = "login.html";
 
 } else {
-
-
-    // =====================================
-    // DISPLAY CITIZEN DASHBOARD
-    // =====================================
 
     async function loadCitizenDashboard() {
 
@@ -36,8 +24,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
         let tableBody =
             document.getElementById("complaintTable");
 
-
-        // Display loading message
         if (tableBody) {
 
             tableBody.innerHTML = `
@@ -51,10 +37,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
 
         try {
-
-            // =====================================
-            // LOAD MOCK JSON COMPLAINTS
-            // =====================================
 
             let complaints = [];
 
@@ -71,11 +53,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                         citizenEmail
                     );
             }
-
-
-            // =====================================
-            // LOAD LOCALSTORAGE COMPLAINTS
-            // =====================================
 
             let complaintCount =
                 Number(localStorage.getItem("complaintCount")) || 0;
@@ -121,11 +98,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 }
             }
 
-
-            // =====================================
-            // COMBINE MOCK AND LOCALSTORAGE DATA
-            // =====================================
-
             let complaintMap = new Map();
 
             complaints.forEach(function(complaint) {
@@ -145,11 +117,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             });
 
             complaints = Array.from(complaintMap.values());
-
-
-            // =====================================
-            // GET LATEST STATUS UPDATES
-            // =====================================
 
             complaints.forEach(function(complaint) {
 
@@ -182,11 +149,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
             });
 
-
-            // =====================================
-            // CALCULATE STATISTICS
-            // =====================================
-
             let total = complaints.length;
 
             let pending = 0;
@@ -202,19 +164,11 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                 tableBody.innerHTML = "";
             }
 
-
-            // =====================================
-            // DISPLAY COMPLAINTS
-            // =====================================
-
             complaints.forEach(function(complaint) {
 
                 let status = complaint.status || "Submitted";
 
                 let normalizedStatus = status.toLowerCase();
-
-
-                // Count complaints by status
 
                 if (
                     normalizedStatus === "pending" ||
@@ -236,11 +190,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
                     rejected++;
                 }
-
-
-                // =====================================
-                // DISPLAY COMPLAINT IN TABLE
-                // =====================================
 
                 if (tableBody) {
 
@@ -270,9 +219,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
                         row.appendChild(cell);
                     });
 
-
-                    // Status badge
-
                     let statusCell =
                         document.createElement("td");
 
@@ -294,11 +240,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
             });
 
-
-            // =====================================
-            // UPDATE STATISTICS CARDS
-            // =====================================
-
             document.getElementById("totalComplaints").textContent =
                 total;
 
@@ -313,11 +254,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
             document.getElementById("rejectedComplaints").textContent =
                 rejected;
-
-
-            // =====================================
-            // DISPLAY EMPTY MESSAGE
-            // =====================================
 
             if (total === 0 && tableBody) {
 
@@ -340,9 +276,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 
             console.error("Citizen Dashboard Error:", error);
 
-
-            // Display error message
-
             if (tableBody) {
 
                 tableBody.innerHTML = `
@@ -357,11 +290,6 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
             }
         }
     }
-
-
-    // =====================================
-    // LOGOUT
-    // =====================================
 
     function logout() {
 
@@ -378,14 +306,7 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
         window.location.href = "login.html";
     }
 
-
-    // Make logout accessible to HTML
     window.logout = logout;
-
-
-    // =====================================
-    // LOAD DASHBOARD
-    // =====================================
 
     loadCitizenDashboard();
 
